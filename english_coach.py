@@ -1,6 +1,10 @@
 import anthropic
 import requests
 import os
+import re
+import asyncio
+import tempfile
+import edge_tts
 from datetime import datetime
 
 # ── Config ──────────────────────────────────────────────────────────────────
@@ -8,9 +12,11 @@ TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 TELEGRAM_CHAT_ID   = os.environ["TELEGRAM_CHAT_ID"]
 ANTHROPIC_API_KEY  = os.environ["ANTHROPIC_API_KEY"]
 
+# Voice: natural American English male voice
+TTS_VOICE = "en-US-BrianNeural"
+
 # ── Helpers ──────────────────────────────────────────────────────────────────
 def get_day_number():
-    """Calculate lesson day based on a fixed start date."""
     start_date = datetime(2025, 1, 1)
     today = datetime.utcnow()
     delta = (today - start_date).days + 1
@@ -22,7 +28,7 @@ def is_friday():
 def is_sunday():
     return datetime.utcnow().weekday() == 6
 
-def send_telegram(text: str):
+def send_telegram_text(text: str):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     payload = {
         "chat_id": TELEGRAM_CHAT_ID,
@@ -31,13 +37,68 @@ def send_telegram(text: str):
     }
     resp = requests.post(url, json=payload, timeout=30)
     resp.raise_for_status()
-    print("✅ Message sent to Telegram.")
+    print("✅ Text message sent.")
+
+def send_telegram_voice(audio_path: str):
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendVoice"
+    with open(audio_path, "rb") as audio_file:
+        resp = requests.post(
+            url,
+            data={"chat_id": TELEGRAM_CHAT_ID},
+            files={"voice": ("lesson.mp3", audio_file, "audio/mpeg")},
+            timeout=60,
+        )
+    resp.raise_for_status()
+    print("✅ Voice note sent.")
+
+def extract_vocab_for_tts(lesson_text: str) -> str:
+    """Extract only verb, word, and phrase sections for TTS."""
+    lines = lesson_text.split("\n")
+    tts_lines = []
+    in_section = False
+
+    # Markers that start a vocab section
+    start_markers = [
+        "verb of the day", "word of the day", "phrase of the day",
+        "🔵", "🟢", "🟡"
+    ]
+    # Markers that end vocab sections
+    stop_markers = [
+        "speaking challenge", "active recall", "native speaker",
+        "reminder", "🗣", "✍️", "💡", "⚡"
+    ]
+
+    for line in lines:
+        line_lower = line.lower()
+
+        if any(m in line_lower for m in start_markers):
+            in_section = True
+
+        if in_section and any(m in line_lower for m in stop_markers) and not any(m in line_lower for m in start_markers):
+            in_section = False
+
+        if in_section:
+            # Strip emojis and symbols for cleaner TTS
+            clean = re.sub(r'[🔵🟢🟡📅⚡️✍️🗣💡💬🧠❓📚•]', '', line).strip()
+            # Remove lines that are just the day header
+            if clean and not clean.startswith("Day "):
+                tts_lines.append(clean)
+
+    result = "\n".join(tts_lines).strip()
+
+    # Fallback: if extraction failed, just use a short intro
+    if len(result) < 30:
+        result = "Here are today's words. Verb of the day, word of the day, and phrase of the day."
+
+    return result
+
+async def generate_voice(text: str, output_path: str):
+    """Generate TTS audio using Edge TTS."""
+    communicate = edge_tts.Communicate(text, TTS_VOICE)
+    await communicate.save(output_path)
 
 # ── Prompt Builder ────────────────────────────────────────────────────────────
 def build_prompt(day: int) -> str:
-    today = datetime.utcnow()
-    weekday = today.strftime("%A")
-
     if is_sunday():
         return f"""
 You are an English Confidence Coach for a senior digital strategist and branding professional in Indonesia.
@@ -180,7 +241,6 @@ def main():
     prompt = build_prompt(day)
 
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
-
     print(f"📘 Generating lesson for Day {day}...")
 
     message = client.messages.create(
@@ -190,7 +250,23 @@ def main():
     )
 
     lesson_text = message.content[0].text.strip()
-    send_telegram(lesson_text)
+
+    # 1. Send text lesson
+    send_telegram_text(lesson_text)
+
+    # 2. Generate and send voice note (daily lesson only, not Friday/Sunday)
+    if not is_friday() and not is_sunday():
+        print("🎙 Generating voice note...")
+        vocab_text = extract_vocab_for_tts(lesson_text)
+        print(f"TTS text:\n{vocab_text}\n")
+
+        with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as tmp:
+            audio_path = tmp.name
+
+        asyncio.run(generate_voice(vocab_text, audio_path))
+        send_telegram_voice(audio_path)
+        os.unlink(audio_path)
+        print("🗑 Temp audio file cleaned up.")
 
 if __name__ == "__main__":
     main()
