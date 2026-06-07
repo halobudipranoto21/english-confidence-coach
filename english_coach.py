@@ -17,7 +17,7 @@ TTS_VOICE = "en-US-BrianNeural"
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
 def get_day_number():
-    start_date = datetime(2025, 1, 1)
+    start_date = datetime(2026, 6, 4)
     today = datetime.utcnow()
     delta = (today - start_date).days + 1
     return delta
