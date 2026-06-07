@@ -7,15 +7,14 @@ import tempfile
 import edge_tts
 from datetime import datetime
 
-# ── Config ──────────────────────────────────────────────────────────────────
+# ── Config ───────────────────────────────────────────────────────────────────
 TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 TELEGRAM_CHAT_ID   = os.environ["TELEGRAM_CHAT_ID"]
 ANTHROPIC_API_KEY  = os.environ["ANTHROPIC_API_KEY"]
 
-# Voice: natural American English male voice
 TTS_VOICE = "en-US-BrianNeural"
 
-# ── Helpers ──────────────────────────────────────────────────────────────────
+# ── Helpers ───────────────────────────────────────────────────────────────────
 def get_day_number():
     start_date = datetime(2026, 6, 4)
     today = datetime.utcnow()
@@ -52,17 +51,14 @@ def send_telegram_voice(audio_path: str):
     print("✅ Voice note sent.")
 
 def extract_vocab_for_tts(lesson_text: str) -> str:
-    """Extract only verb, word, and phrase sections for TTS."""
     lines = lesson_text.split("\n")
     tts_lines = []
     in_section = False
 
-    # Markers that start a vocab section
     start_markers = [
         "verb of the day", "word of the day", "phrase of the day",
         "🔵", "🟢", "🟡"
     ]
-    # Markers that end vocab sections
     stop_markers = [
         "speaking challenge", "active recall", "native speaker",
         "reminder", "🗣", "✍️", "💡", "⚡"
@@ -78,27 +74,24 @@ def extract_vocab_for_tts(lesson_text: str) -> str:
             in_section = False
 
         if in_section:
-            # Strip emojis and symbols for cleaner TTS
             clean = re.sub(r'[🔵🟢🟡📅⚡️✍️🗣💡💬🧠❓📚•]', '', line).strip()
-            # Remove lines that are just the day header
             if clean and not clean.startswith("Day "):
                 tts_lines.append(clean)
 
     result = "\n".join(tts_lines).strip()
 
-    # Fallback: if extraction failed, just use a short intro
     if len(result) < 30:
         result = "Here are today's words. Verb of the day, word of the day, and phrase of the day."
 
     return result
 
 async def generate_voice(text: str, output_path: str):
-    """Generate TTS audio using Edge TTS."""
     communicate = edge_tts.Communicate(text, TTS_VOICE)
     await communicate.save(output_path)
 
 # ── Prompt Builder ────────────────────────────────────────────────────────────
 def build_prompt(day: int) -> str:
+
     if is_sunday():
         return f"""
 You are an English Confidence Coach for a senior digital strategist and branding professional in Indonesia.
