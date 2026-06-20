@@ -5,7 +5,8 @@
     "friction",
     "traction",
     "insight",
-    "subtle"
+    "subtle",
+    "gap"
   ],
   "verbs": [
     "overlook",
@@ -13,7 +14,8 @@
     "bounce",
     "pin",
     "dial",
-    "bridge"
+    "bridge",
+    "sort"
   ],
   "phrases": [
     "cut corners\nmeaning",
@@ -21,6 +23,7 @@
     "get on the same page\nmeaning",
     "play into\nmeaning",
     "weigh in on\nmeaning",
-    "bring to the table\nmeaning"
+    "bring to the table\nmeaning",
+    "dial in\nmeaning"
   ]
 }
