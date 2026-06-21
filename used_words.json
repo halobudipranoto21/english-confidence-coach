@@ -6,7 +6,8 @@
     "traction",
     "insight",
     "subtle",
-    "gap"
+    "gap",
+    "leverage"
   ],
   "verbs": [
     "overlook",
@@ -15,7 +16,8 @@
     "pin",
     "dial",
     "bridge",
-    "sort"
+    "sort",
+    "offset"
   ],
   "phrases": [
     "cut corners\nmeaning",
@@ -24,6 +26,7 @@
     "play into\nmeaning",
     "weigh in on\nmeaning",
     "bring to the table\nmeaning",
-    "dial in\nmeaning"
+    "dial in\nmeaning",
+    "work around\nmeaning"
   ]
 }
