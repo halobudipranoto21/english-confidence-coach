@@ -9,7 +9,8 @@
     "gap",
     "leverage",
     "alignment",
-    "realistic"
+    "realistic",
+    "threshold"
   ],
   "verbs": [
     "overlook",
@@ -21,7 +22,8 @@
     "sort",
     "offset",
     "simplify",
-    "cushion"
+    "cushion",
+    "defer"
   ],
   "phrases": [
     "cut corners\nmeaning",
@@ -33,6 +35,7 @@
     "dial in\nmeaning",
     "work around\nmeaning",
     "nail down\nmeaning",
-    "stay ahead of the curve\nmeaning"
+    "stay ahead of the curve\nmeaning",
+    "hold someone accountable\nmeaning"
   ]
 }
