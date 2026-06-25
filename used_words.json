@@ -10,7 +10,8 @@
     "leverage",
     "alignment",
     "realistic",
-    "threshold"
+    "threshold",
+    "buffer"
   ],
   "verbs": [
     "overlook",
@@ -23,7 +24,8 @@
     "offset",
     "simplify",
     "cushion",
-    "defer"
+    "defer",
+    "stretch"
   ],
   "phrases": [
     "cut corners\nmeaning",
@@ -36,6 +38,7 @@
     "work around\nmeaning",
     "nail down\nmeaning",
     "stay ahead of the curve\nmeaning",
-    "hold someone accountable\nmeaning"
+    "hold someone accountable\nmeaning",
+    "run with something\nmeaning"
   ]
 }
