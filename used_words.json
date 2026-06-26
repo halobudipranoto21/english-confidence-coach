@@ -11,7 +11,8 @@
     "alignment",
     "realistic",
     "threshold",
-    "buffer"
+    "buffer",
+    "bandwidth"
   ],
   "verbs": [
     "overlook",
@@ -25,7 +26,8 @@
     "simplify",
     "cushion",
     "defer",
-    "stretch"
+    "stretch",
+    "drain"
   ],
   "phrases": [
     "cut corners\nmeaning",
@@ -39,6 +41,7 @@
     "nail down\nmeaning",
     "stay ahead of the curve\nmeaning",
     "hold someone accountable\nmeaning",
-    "run with something\nmeaning"
+    "run with something\nmeaning",
+    "push back on something\nmeaning"
   ]
 }
