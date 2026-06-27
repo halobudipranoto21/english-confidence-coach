@@ -12,7 +12,8 @@
     "realistic",
     "threshold",
     "buffer",
-    "bandwidth"
+    "bandwidth",
+    "constraint"
   ],
   "verbs": [
     "overlook",
@@ -27,7 +28,8 @@
     "cushion",
     "defer",
     "stretch",
-    "drain"
+    "drain",
+    "compromise"
   ],
   "phrases": [
     "cut corners\nmeaning",
@@ -42,6 +44,7 @@
     "stay ahead of the curve\nmeaning",
     "hold someone accountable\nmeaning",
     "run with something\nmeaning",
-    "push back on something\nmeaning"
+    "push back on something\nmeaning",
+    "factor in\nmeaning"
   ]
 }
