@@ -13,7 +13,8 @@
     "threshold",
     "buffer",
     "bandwidth",
-    "constraint"
+    "constraint",
+    "pivotal"
   ],
   "verbs": [
     "overlook",
@@ -29,7 +30,8 @@
     "defer",
     "stretch",
     "drain",
-    "compromise"
+    "compromise",
+    "refine"
   ],
   "phrases": [
     "cut corners\nmeaning",
@@ -45,6 +47,7 @@
     "hold someone accountable\nmeaning",
     "run with something\nmeaning",
     "push back on something\nmeaning",
-    "factor in\nmeaning"
+    "factor in\nmeaning",
+    "take stock of\nmeaning"
   ]
 }
