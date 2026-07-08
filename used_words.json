@@ -21,7 +21,8 @@
     "trade",
     "nuance",
     "roadblock",
-    "deliberate"
+    "deliberate",
+    "scope"
   ],
   "verbs": [
     "overlook",
@@ -47,7 +48,8 @@
     "uphold",
     "brush",
     "settle",
-    "sift"
+    "sift",
+    "circulate"
   ],
   "phrases": [
     "cut corners\nmeaning",
@@ -73,6 +75,7 @@
     "steer clear of\nmeaning",
     "dig into\nmeaning",
     "back and forth\nmeaning",
-    "cut through the noise\nmeaning"
+    "cut through the noise\nmeaning",
+    "get a handle on\nmeaning"
   ]
 }
