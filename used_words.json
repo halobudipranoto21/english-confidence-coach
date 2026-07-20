@@ -63,7 +63,8 @@
     "grind",
     "weave",
     "glance",
-    "escalate"
+    "escalate",
+    "stall"
   ],
   "phrases": [
     "cut corners\nmeaning",
@@ -100,6 +101,7 @@
     "level the playing field\nmeaning",
     "peel back the layers\nmeaning",
     "piece together\nmeaning",
-    "catch wind of\nmeaning"
+    "catch wind of\nmeaning",
+    "lose steam\nmeaning"
   ]
 }
